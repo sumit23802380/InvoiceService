@@ -1,3 +1,4 @@
+import com.bridgelabz.invoiceservice.InvoiceSummary;
 import com.bridgelabz.invoiceservice.Ride;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,6 +18,14 @@ import org.junit.jupiter.api.BeforeEach;
  * UC 2 - Multiple Rides
  * The Invoice Generator should now take in multiple
  * rides, and calculate the aggregate total for all.
+ *
+ *
+ * UC 3 - Enhanced Invoice
+ * The Invoice Generator should now return the
+ * following as a part of the invoice -
+ *  - Total Number of Rides
+ *  - Total Fare
+ *  - Average Fare Per Ride
  */
 
 public class InvoiceServiceTest {
@@ -33,9 +42,10 @@ public class InvoiceServiceTest {
     }
 
     @Test
-    public void testMultipleRides() {
-        Ride[] rides = {new Ride(2.0, 5) , new Ride(0.1 , 1)};
-        double fare  = invoiceGenerator.calculateFare(rides);
-        Assert.assertEquals(30.00 , fare , 0.00);
+    public void testMultipleRidesSummary() {
+        Ride[] rides = {new Ride(2.0, 5), new Ride(0.1, 1)};
+        InvoiceSummary invoiceSummary = invoiceGenerator.calculateFare(rides);
+        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2 , 30.0);
+        Assert.assertEquals(expectedInvoiceSummary, invoiceSummary);
     }
 }
