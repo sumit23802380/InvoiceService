@@ -59,9 +59,16 @@ public class InvoiceServiceTest {
         InvoiceSummary invoiceSummary = invoiceService.getInvoiceSummary("sumit@gmail.com");
         InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2 , 30.0);
         Assert.assertEquals(expectedInvoiceSummary, invoiceSummary);
+
+
+        User userWithNoRides = new User("amit@gmail.com");
+        UsersList.add(userWithNoRides);
+        InvoiceSummary invoiceSummaryOfNoRides = invoiceService.getInvoiceSummary("amit@gmail.com");
+        InvoiceSummary expectedInvoiceSummaryOfNoRides = new InvoiceSummary(0 , 0);
+        Assert.assertEquals(expectedInvoiceSummaryOfNoRides, invoiceSummaryOfNoRides);
     }
     @Test
-    public void getInvoiceSummaryByUserIdIfUserNotExists(){
+    public void getInvoiceSummaryByUserIdIfUserDoesNotExists(){
         InvoiceSummary invoiceSummary = invoiceService.getInvoiceSummary("sumit@gmail.com");
         Assert.assertNull(invoiceSummary);
     }

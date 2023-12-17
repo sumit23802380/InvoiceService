@@ -24,6 +24,9 @@ public class InvoiceService {
         if(user == null){
             return null;
         }
+        else if(user.ridesList == null){
+            return new InvoiceSummary(0,0);
+        }
         return calculateFare(user.ridesList);
     }
 }
