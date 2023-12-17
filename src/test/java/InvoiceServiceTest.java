@@ -1,9 +1,7 @@
-import com.bridgelabz.invoiceservice.InvoiceSummary;
-import com.bridgelabz.invoiceservice.Ride;
+import com.bridgelabz.invoiceservice.*;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import com.bridgelabz.invoiceservice.InvoiceGenerator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -26,26 +24,45 @@ import org.junit.jupiter.api.BeforeEach;
  *  - Total Number of Rides
  *  - Total Fare
  *  - Average Fare Per Ride
+ *
+ * UC 4 - Invoice Service
+ * Given a user id, the Invoice Service gets the List
+ * of rides from the RideRepository, and returns the
+ * Invoice.
  */
 
 public class InvoiceServiceTest {
-    InvoiceGenerator invoiceGenerator = new InvoiceGenerator();
+    InvoiceService invoiceService = new InvoiceService();
     @Test
     public void calculateFareTest() {
         double distance = 2.0;
         int time = 5;
-        double fare = invoiceGenerator.calculateFare(distance, time);
+        double fare = invoiceService.calculateFare(distance, time);
         Assert.assertEquals(25.00, fare, 0.00);
         distance = 0.1;
         time = 1;
-        Assert.assertEquals(5.00, invoiceGenerator.calculateFare(distance, time), 0.00);
+        Assert.assertEquals(5.00, invoiceService.calculateFare(distance, time), 0.00);
     }
 
     @Test
     public void testMultipleRidesSummary() {
         Ride[] rides = {new Ride(2.0, 5), new Ride(0.1, 1)};
-        InvoiceSummary invoiceSummary = invoiceGenerator.calculateFare(rides);
+        InvoiceSummary invoiceSummary = invoiceService.calculateFare(rides);
         InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2 , 30.0);
         Assert.assertEquals(expectedInvoiceSummary, invoiceSummary);
+    }
+    @Test
+    public void getInvoiceSummaryByUserIdIfUserIdExists(){
+        Ride[] rideList = {new Ride(2.0, 5), new Ride(0.1, 1)};
+        User user = new User("sumit@gmail.com" , rideList);
+        UsersList.add(user);
+        InvoiceSummary invoiceSummary = invoiceService.getInvoiceSummary("sumit@gmail.com");
+        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2 , 30.0);
+        Assert.assertEquals(expectedInvoiceSummary, invoiceSummary);
+    }
+    @Test
+    public void getInvoiceSummaryByUserIdIfUserNotExists(){
+        InvoiceSummary invoiceSummary = invoiceService.getInvoiceSummary("sumit@gmail.com");
+        Assert.assertNull(invoiceSummary);
     }
 }
