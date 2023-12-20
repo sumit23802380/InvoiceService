@@ -32,7 +32,11 @@ import org.junit.jupiter.api.BeforeEach;
  */
 
 public class InvoiceServiceTest {
-    InvoiceService invoiceService = new InvoiceService();
+    InvoiceService invoiceService;
+    @Before
+    public void setUp() throws Exception {
+        invoiceService = new InvoiceService();
+    }
     @Test
     public void calculateFareTest() {
         double distance = 2.0;
@@ -77,4 +81,6 @@ public class InvoiceServiceTest {
         InvoiceSummary invoiceSummary = invoiceService.getInvoiceSummary("sumit@gmail.com");
         Assert.assertNull(invoiceSummary);
     }
+
+
 }
